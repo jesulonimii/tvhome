@@ -61,15 +61,15 @@ class FrameStatsTest(unittest.TestCase):
                 stats = ("Uptime: 2000 Realtime: 2000\nTotal frames rendered: 2\nJanky frames: 0\n"
                          + profile(header, frame(header), frame(header, 200_000_000, 112)))
                 answers = {
-                    "dumpsys gfxinfo com.gathin.tvhome reset": "Uptime: 1000 Realtime: 1000\n",
+                    "dumpsys gfxinfo com.jesulonimii.tvhome reset": "Uptime: 1000 Realtime: 1000\n",
                     "input keyevent 22": "",
-                    "dumpsys gfxinfo com.gathin.tvhome framestats": stats,
+                    "dumpsys gfxinfo com.jesulonimii.tvhome framestats": stats,
                     "logcat -d -b main -t 2000 | grep injectKeyEvent":
                         "injectKeyEvent action=ACTION_DOWN KEYCODE_DPAD_RIGHT eventTime=1000",
                 }
                 tv = mock.Mock()
-                tv.home_component.return_value = "com.gathin.tvhome/.MainActivity"
-                tv.package_of.return_value = "com.gathin.tvhome"
+                tv.home_component.return_value = "com.jesulonimii.tvhome/.MainActivity"
+                tv.package_of.return_value = "com.jesulonimii.tvhome"
                 tv.shell.side_effect = answers.__getitem__
                 with mock.patch.object(bench.time, "sleep"):
                     self.assertEqual(bench.measure_key(tv, 22), (20.0, 20.0, 2, 0))

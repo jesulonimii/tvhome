@@ -151,7 +151,7 @@ creator was `com.android.tv.settings`, not `android.uid.system` as on the
 Order used, as in the Q7C README: setupwraith first, while launcherx still owned Home, then
 `STOCK_LAUNCHER=com.google.android.apps.tv.launcherx INPUT_KEY_SERVICE=1 HOME_KEY_SERVICE=1
 launcher/build-and-install.sh`, which started the new launcher, disabled launcherx and reported
-`Home now resolves to com.gathin.tvhome/.MainActivity`. `mFocusedApp` confirmed it.
+`Home now resolves to com.jesulonimii.tvhome/.MainActivity`. `mFocusedApp` confirmed it.
 
 ### The list as applied
 
@@ -261,7 +261,7 @@ Pushed with `tools/theme.sh` (`greeting_name` left out here):
 ### Reboot and closing ADB
 
 After one reboot, `pm list packages -d` returned the same 33 packages as before it: the 29 above, launcherx, and
-the three disabled before the session. Nothing came back. HOME still resolved to `com.gathin.tvhome/.MainActivity`,
+the three disabled before the session. Nothing came back. HOME still resolved to `com.jesulonimii.tvhome/.MainActivity`,
 and `enabled_accessibility_services` still listed `InputKeyService` and `HomeKeyService`.
 
 To close: `tools/tv.py 'settings put global adb_wifi_enabled 0'`, then `'settings put global adb_enabled 0'`.
@@ -317,7 +317,7 @@ Instead of disabling setupwraith, both it and launcherx stayed enabled and the l
   `app_keys` `190:com.google.android.youtube.tv` and `4062:com.netflix.ninja`, `live_tv_package` `com.tcl.tv`.
 - `STOCK_LAUNCHER=none launcher/build-and-install.sh` installs it and leaves launcherx alone. Its Home check then
   reports launcherx, which is expected here; `HomeKeyService` was enabled afterwards the same way the script does.
-- Home from inside YouTube landed on `com.gathin.tvhome/.MainActivity` (`mFocusedApp`), and after a reboot the TV
+- Home from inside YouTube landed on `com.jesulonimii.tvhome/.MainActivity` (`mFocusedApp`), and after a reboot the TV
   started straight into it. Launcherx flashes for a moment before the redirect.
 - The owner pressed Home, Settings, YouTube, Netflix and Input on the real remote: all worked. Holding volume up
   kept ramping with `HomeKeyService` bound and `key_filter` true, so the G09 repeat loss did not show on this set.
@@ -325,9 +325,9 @@ Instead of disabling setupwraith, both it and launcherx stayed enabled and the l
 ### TclAppBoot after a reboot
 
 After the first reboot `HomeKeyService` was enabled but unbound, `accessibility_enabled` read `0`, and logcat had
-`[TclAppBoot]:forbid bind service ComponentInfo{com.gathin.tvhome/com.gathin.tvhome.HomeKeyService}`.
-`appops get com.gathin.tvhome` showed `AUTO_START: ignore`: the install script's `cmd appops set ... AUTO_START
-allow` had not reached the disk. `appops set com.gathin.tvhome AUTO_START allow; appops write-settings`, then
+`[TclAppBoot]:forbid bind service ComponentInfo{com.jesulonimii.tvhome/com.jesulonimii.tvhome.HomeKeyService}`.
+`appops get com.jesulonimii.tvhome` showed `AUTO_START: ignore`: the install script's `cmd appops set ... AUTO_START
+allow` had not reached the disk. `appops set com.jesulonimii.tvhome AUTO_START allow; appops write-settings`, then
 clearing and rewriting the enabled list, bound the helper, and it bound on its own after the next reboot. The Sleep
 Timer add-on needed the same op (`AUTO_START` here, not `APP_AUTO_START`).
 

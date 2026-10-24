@@ -605,7 +605,7 @@ and a wallpaper.
 English, German, Spanish, Catalan, French, Russian, Serbian (Latin), Polish, Czech, Italian, Portuguese,
 Turkish, Arabic, Hebrew, Simplified Chinese, Traditional Chinese (Taiwan), Thai, Finnish, Vietnamese,
 Bangla, Indonesian, Norwegian Bokmål, Dutch, Uzbek (Latin) and Ukrainian. The launcher follows the TV's language. Android 13+ can set it for the launcher
-alone: `tools/tv.py 'cmd locale set-app-locales com.gathin.tvhome --locales ca'`.
+alone: `tools/tv.py 'cmd locale set-app-locales com.jesulonimii.tvhome --locales ca'`.
 
 Hebrew mirrors the layout: menu buttons on the left, date and clock on the right with the greeting above,
 dock and app rows starting on the right with matching remote navigation, the input selector's icons and
@@ -631,7 +631,7 @@ contract: [`docs/specs/card.md`](docs/specs/card.md).
 Pick "Clock" in the TV's screensaver settings, or over ADB:
 
 ```bash
-tools/tv.py 'settings put secure screensaver_components com.gathin.tvhome/.ClockDream; settings put secure screensaver_enabled 1'
+tools/tv.py 'settings put secure screensaver_components com.jesulonimii.tvhome/.ClockDream; settings put secure screensaver_enabled 1'
 ```
 
 </details>

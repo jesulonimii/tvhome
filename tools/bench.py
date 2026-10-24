@@ -112,7 +112,7 @@ class TV:
         return self.shell(command).strip() == ""
 
     def home_component(self):
-        """The component that answers HOME, e.g. com.gathin.tvhome/.MainActivity."""
+        """The component that answers HOME, e.g. com.jesulonimii.tvhome/.MainActivity."""
         out = self.shell(
             "cmd package resolve-activity --brief -a android.intent.action.MAIN "
             "-c android.intent.category.HOME")

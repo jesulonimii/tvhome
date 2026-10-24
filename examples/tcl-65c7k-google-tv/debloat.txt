@@ -60,7 +60,7 @@ com.rma.speedtesttv                    # Speedtest
 com.google.android.tungsten.setupwraith
 
 # Kept on this unit: uncomment if you don't use them
-# com.google.android.apps.tv.dreamx    # ambient screensaver, kept by choice; to disable, set screensaver_components to com.gathin.tvhome/.ClockDream first
+# com.google.android.apps.tv.dreamx    # ambient screensaver, kept by choice; to disable, set screensaver_components to com.jesulonimii.tvhome/.ClockDream first
 # com.google.android.apps.mediashell   # Chromecast
 # com.tcl.airplay2                     # AirPlay, together with the next two lines
 # com.mediatek.AirplayAPK

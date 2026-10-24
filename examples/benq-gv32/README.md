@@ -80,7 +80,7 @@ TV_HOST=<projector-ip> tools/restore.sh examples/benq-gv32/debloat.txt com.googl
 TV_HOST=<projector-ip> tools/theme.sh --reset
 ```
 
-Switch the key helper off as shown under Remote buttons, and `tools/tv.py 'pm uninstall com.gathin.tvhome'`
+Switch the key helper off as shown under Remote buttons, and `tools/tv.py 'pm uninstall com.jesulonimii.tvhome'`
 removes the launcher itself.
 
 ## Change the dock or the wallpaper

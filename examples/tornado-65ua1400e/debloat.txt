@@ -77,7 +77,7 @@ com.android.cts.priv.ctsshim                # Android test shim
 com.google.android.syncadapters.calendar
 com.android.providers.calendar
 
-# --- Batch 4: only once com.gathin.tvhome owns Home (applied after the launcher took Home)
+# --- Batch 4: only once com.jesulonimii.tvhome owns Home (applied after the launcher took Home)
 com.google.android.tvrecommendations                   # stock launcher recommendation rows
 com.google.android.leanbacklauncher.partnercustomizer  # "Featured by Google Play" partner row config
 # com.google.android.tvlauncher   # launcher/build-and-install.sh disables the stock launcher itself, after Home has moved

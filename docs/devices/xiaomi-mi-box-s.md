@@ -15,7 +15,7 @@ Nothing broke between batches.
 - Home: `com.google.android.tvlauncher` before, as on the first unit. The only other HOME claimant was
   `com.android.tv.settings/.system.FallbackHome`; no setupwraith claim.
 - `launcher/build-and-install.ps1` worked first time: `set-home-activity` with the component, the stock
-  launcher disabled, `mResumedActivity` on `com.gathin.tvhome/.MainActivity`.
+  launcher disabled, `mResumedActivity` on `com.jesulonimii.tvhome/.MainActivity`.
 - After a reboot the same 25 packages were disabled: nothing is re-enabled at boot. Home and Wi-Fi came
   back by themselves. `MemAvailable` was 1.08 GB before (box running for a while) and 1.23 GB right after
   the reboot.
@@ -37,7 +37,7 @@ Nothing broke between batches.
   which does nothing with it (the first unit saw the same, also on the stock launcher). The launcher's
   `HomeKeyService` catches `KEYCODE_ALL_APPS`, so enabling it (`-HomeKeyService` on
   `launcher/build-and-install.ps1`) turns the Apps button into a second Home button. Checked with the
-  real remote from inside VLC: the press started `com.gathin.tvhome/.MainActivity`.
+  real remote from inside VLC: the press started `com.jesulonimii.tvhome/.MainActivity`.
 - The other buttons, checked with the real remote and `getevent -lt`: Home (`KEY_HOMEPAGE`), Back,
   voice (`KEY_VOICECOMMAND`, Assistant kept) and Netflix (`KEY_VIDEO`, scancode 393 is `NETFLIX` in
   the same `.kl`) all work with the stock launcher disabled.

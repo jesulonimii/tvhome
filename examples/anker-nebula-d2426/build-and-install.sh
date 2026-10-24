@@ -23,21 +23,21 @@ fi
 # While the stock launcher is still enabled it outranks the new one, so that script reports that Home did not
 # switch; that is expected on a first install. A failed build or install is not, so check the package is there.
 STOCK_LAUNCHER=none "$ROOT/launcher/build-and-install.sh" || true
-case "$("$ROOT/tools/venv/bin/python" -I "$ROOT/tools/tv.py" 'pm path com.gathin.tvhome')" in
+case "$("$ROOT/tools/venv/bin/python" -I "$ROOT/tools/tv.py" 'pm path com.jesulonimii.tvhome')" in
   *package:*) ;;
   *) echo "ERROR: the launcher is not installed; nothing was disabled." >&2; exit 1 ;;
 esac
 
 "$ROOT/tools/disable.sh" "$HERE/debloat.txt"
 "$ROOT/tools/venv/bin/python" -I "$ROOT/tools/tv.py" \
-  "cmd package set-home-activity --user 0 com.gathin.tvhome/.MainActivity"
+  "cmd package set-home-activity --user 0 com.jesulonimii.tvhome/.MainActivity"
 "$ROOT/tools/theme.sh" "$HERE"
 
 HOME_NOW="$("$ROOT/tools/venv/bin/python" -I "$ROOT/tools/tv.py" \
   'cmd package resolve-activity --brief -a android.intent.action.MAIN -c android.intent.category.HOME' | tail -n 1 | tr -d '\r')"
 echo "Home resolves to: $HOME_NOW"
 case "$HOME_NOW" in
-  com.gathin.tvhome/*) echo "Done. Press Home on the remote." ;;
+  com.jesulonimii.tvhome/*) echo "Done. Press Home on the remote." ;;
   *) echo "ERROR: Home is not the new launcher; run examples/anker-nebula-d2426/restore.sh to undo." >&2; exit 1 ;;
 esac
 echo "Netflix here is the phone app: add it once from Home > App library (bottom pill) so the dock can show it."

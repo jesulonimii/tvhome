@@ -22,7 +22,7 @@ import unittest
 
 ROOT = Path(__file__).resolve().parents[1]
 TROUBLE = ROOT / "docs" / "TROUBLESHOOTING.md"
-SERVICE_REPAIR = (ROOT / "launcher" / "app" / "src" / "main" / "java" / "com" / "gathin" / "tvhome"
+SERVICE_REPAIR = (ROOT / "launcher" / "app" / "src" / "main" / "java" / "com" / "jesulonimii" / "tvhome"
                   / "ServiceRepair.java")
 THEMES_README = ROOT / "themes" / "README.md"
 START = "- **The list still names the helper but"
@@ -99,7 +99,7 @@ class AccessibilityFlagNoteTest(unittest.TestCase):
                 self.assertIn(command, self.note)
 
     def test_bullet_names_the_component_a_reader_will_see(self):
-        self.assertIn("com.gathin.tvhome/com.gathin.tvhome.HomeKeyService", self.note)
+        self.assertIn("com.jesulonimii.tvhome/com.jesulonimii.tvhome.HomeKeyService", self.note)
 
     def test_bullet_names_the_device_and_build_it_was_seen_on(self):
         self.assertIn("TCL C6K Pro", self.note)

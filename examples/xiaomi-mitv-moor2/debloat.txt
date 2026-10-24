@@ -49,11 +49,11 @@
 #     TV leaving Wi-Fi.
 #   - Remote with the launcher (HOME_KEY_SERVICE=1 INPUT_KEY_SERVICE=1, 190:com.google.android.youtube.tv in
 #     app_keys): Settings, Input, YouTube and Netflix buttons worked; held Volume stepped once per press.
-#   - Continue watching: with com.gathin.tvhome as Home, content://android.media.tv/watch_next_program,
+#   - Continue watching: with com.jesulonimii.tvhome as Home, content://android.media.tv/watch_next_program,
 #     preview_program and channel all came back empty, even after half an episode in Netflix (which holds
 #     WRITE_EPG_DATA), so the stock home's Continue watching row is not in the local TV provider here and a
 #     third-party launcher has nothing to show for it. This TV went back to launcherx for that row (pm enable,
-#     set-home-activity .home.HomeActivity, com.gathin.tvhome disabled) with the rest of the list still
+#     set-home-activity .home.HomeActivity, com.jesulonimii.tvhome disabled) with the rest of the list still
 #     applied: the stock home works, its Mi Home tab is gone and held-key repeat is back.
 #   - Private DNS dns.adguard-dns.com works; the streaming apps above still play.
 #   First-day report, like the one above.
@@ -109,7 +109,7 @@ com.xiaomi.mimusic2                    # Mi Music
 com.google.android.play.games          # Play Games
 
 # ---------------------------------------------------------------------------------------------
-# ONLY AFTER com.gathin.tvhome IS INSTALLED. Do not apply this section on a fresh run, or the
+# ONLY AFTER com.jesulonimii.tvhome IS INSTALLED. Do not apply this section on a fresh run, or the
 # Home button has nowhere to go.
 #
 # Disabling the stock launcher is not enough on this firmware:

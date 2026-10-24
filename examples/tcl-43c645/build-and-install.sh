@@ -32,25 +32,25 @@ echo "$OUT"
 
 # This TV's dock, Live TV app and remote keys (examples/tcl-43c645/config.json), overlaid on
 # config.xml by the launcher at start. A new theme_revision makes it drop on-TV layout choices.
-DIR=/sdcard/Android/data/com.gathin.tvhome/files
+DIR=/sdcard/Android/data/com.jesulonimii.tvhome/files
 $A shell mkdir -p "$DIR"
 $A push ../examples/tcl-43c645/config.json "$DIR/config.json" >/dev/null
 $A shell "printf '%s' $(date +%s) > $DIR/theme_revision"
 
-START=$($A shell am start -W -a android.intent.action.MAIN -c android.intent.category.HOME -n com.gathin.tvhome/.MainActivity | tr -d '\r')
+START=$($A shell am start -W -a android.intent.action.MAIN -c android.intent.category.HOME -n com.jesulonimii.tvhome/.MainActivity | tr -d '\r')
 echo "$START" | grep -q 'Status: ok' || { echo "launcher did not start, Home left as it was" >&2; exit 1; }
 
-$A shell pm grant com.gathin.tvhome android.permission.ACCESS_FINE_LOCATION
-$A shell cmd package compile -m speed -f com.gathin.tvhome >/dev/null
+$A shell pm grant com.jesulonimii.tvhome android.permission.ACCESS_FINE_LOCATION
+$A shell cmd package compile -m speed -f com.jesulonimii.tvhome >/dev/null
 # Stock Home and the Google TV setup wizard (which claims Home once launcherx is off). A no-op when
 # debloat.txt already disabled setupwraith.
 $A shell pm disable-user --user 0 com.google.android.tungsten.setupwraith
 $A shell pm disable-user --user 0 com.google.android.apps.tv.launcherx
-$A shell cmd package set-home-activity --user 0 com.gathin.tvhome/.MainActivity
+$A shell cmd package set-home-activity --user 0 com.jesulonimii.tvhome/.MainActivity
 HOME_NOW=$($A shell cmd package resolve-activity --brief -a android.intent.action.MAIN -c android.intent.category.HOME | tail -n 1 | tr -d '\r')
 echo "Home: $HOME_NOW"
 case "$HOME_NOW" in
-  com.gathin.tvhome/*) ;;
+  com.jesulonimii.tvhome/*) ;;
   *) echo "Home is not the new launcher; putting launcherx back" >&2
      $A shell pm enable com.google.android.apps.tv.launcherx
      $A shell cmd package set-home-activity --user 0 com.google.android.apps.tv.launcherx/.home.HomeActivity
@@ -63,7 +63,7 @@ esac
 $A shell settings put secure enabled_accessibility_services "''"
 sleep 1
 $A shell settings put secure enabled_accessibility_services \
-  com.gathin.tvhome/.InputKeyService:com.gathin.tvhome/.HomeKeyService
+  com.jesulonimii.tvhome/.InputKeyService:com.jesulonimii.tvhome/.HomeKeyService
 $A shell settings put secure accessibility_enabled 1
 $A shell input keyevent HOME
 echo "Installed. Check the remote buttons with the real remote."

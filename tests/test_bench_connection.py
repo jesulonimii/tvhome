@@ -110,7 +110,7 @@ class FakeTV:
 
     def home_component(self):
         self.commands.append("HOME LOOKUP")
-        return "com.gathin.tvhome/.MainActivity"
+        return "com.jesulonimii.tvhome/.MainActivity"
 
 
 class KeyTest(unittest.TestCase):
@@ -135,9 +135,9 @@ class KeyTest(unittest.TestCase):
     def test_the_key_loop_does_not_look_up_home_for_every_key(self):
         tv = FakeTV()
         with mock.patch.object(bench.time, "sleep"):
-            bench.measure_key(tv, 22, package="com.gathin.tvhome")
+            bench.measure_key(tv, 22, package="com.jesulonimii.tvhome")
         self.assertNotIn("HOME LOOKUP", tv.commands)
-        self.assertIn("dumpsys gfxinfo com.gathin.tvhome reset", tv.commands)
+        self.assertIn("dumpsys gfxinfo com.jesulonimii.tvhome reset", tv.commands)
 
 
 if __name__ == "__main__":

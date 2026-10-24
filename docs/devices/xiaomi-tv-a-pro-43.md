@@ -21,7 +21,7 @@ Wi-Fi network. The owner had already forgotten Wi-Fi and connected Ethernet, but
 ADB inspection showed `com.google.android.tungsten.setupwraith` as the Wi-Fi config owner. After
 Ethernet was confirmed as the active default network, the setup wizard was disabled; the launcher
 build-and-install script installed and started CleanYourTV, made it Home, and only then disabled the
-stock launcher. After one reboot, Home still resolved to `com.gathin.tvhome/.MainActivity`.
+stock launcher. After one reboot, Home still resolved to `com.jesulonimii.tvhome/.MainActivity`.
 
 Do not disable the setup wizard while the TV is still relying on its saved Wi-Fi network. Confirm
 that Ethernet (or another network not owned by the wizard) is active first. Disabling it can also stop phone casting after a reboot, since the Cast receiver reads its credentials from setupwraith.

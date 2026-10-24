@@ -26,7 +26,7 @@ $A shell settings put secure enabled_accessibility_services "''"
 $A shell pm enable com.google.android.apps.tv.launcherx | tr -d '\r'
 $A shell cmd package set-home-activity --user 0 com.google.android.apps.tv.launcherx/.home.HomeActivity
 if [ "${1:-}" = --uninstall ]; then
-  $A shell pm uninstall com.gathin.tvhome
+  $A shell pm uninstall com.jesulonimii.tvhome
 fi
 $A shell input keyevent HOME
 echo "Home: $($A shell cmd package resolve-activity --brief -a android.intent.action.MAIN -c android.intent.category.HOME | tail -n 1)"

@@ -15,7 +15,7 @@ address (Settings > Network on the projector).
 | **Back after every boot** | The firmware turns `com.google.android.katniss` (Assistant) back on at each boot. The owner keeps it on, so the mic button works; `tools/check.py --fix` re-disables it if you prefer |
 | **Kept** | Chromecast built-in, Prime Video, YouTube + YouTube Music, Play Games, Nebula Play, Nebula Life, Netflix (see quirks), Google's Ambient Mode screensaver, and everything the projector needs: focus / keystone / battery settings, remote, Bluetooth pairing, HDMI inputs, USB media player, Dolby audio, keyboard, Play Store, firmware-update UI |
 | **Screensaver** | Google Ambient Mode: disabled at first with the screensaver switched to the built-in "Colors", then re-enabled on request and made the active screensaver again |
-| **Home** | `com.gathin.tvhome`, configured by [`config.json`](config.json): six-column dock (YouTube, Twitch, Netflix, Prime Video, Vodafone TV, VLC), the app library and the gear menu |
+| **Home** | `com.jesulonimii.tvhome`, configured by [`config.json`](config.json): six-column dock (YouTube, Twitch, Netflix, Prime Video, Vodafone TV, VLC), the app library and the gear menu |
 
 ## The quirks that cost the most time
 

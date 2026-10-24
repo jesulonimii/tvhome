@@ -41,8 +41,8 @@ Two TCL app ops have to allow the process to start. Without them `TclAppBootMana
 and the set stays on cyberui:
 
 ```
-adb shell appops set com.gathin.tvhome APP_AUTO_START allow
-adb shell appops set com.gathin.tvhome APP_ASSOC_START allow
+adb shell appops set com.jesulonimii.tvhome APP_AUTO_START allow
+adb shell appops set com.jesulonimii.tvhome APP_ASSOC_START allow
 ```
 
 `config.json` sets `stock_home_redirect` to `com.tcl.cyberui`. Enable `HomeKeyService`
@@ -51,7 +51,7 @@ whatever else is already in the list (小T, `com.tcl.walleve`, if you did not di
 
 ```
 adb shell settings put secure enabled_accessibility_services \
-  '<existing>:com.gathin.tvhome/com.gathin.tvhome.HomeKeyService'
+  '<existing>:com.jesulonimii.tvhome/com.jesulonimii.tvhome.HomeKeyService'
 adb shell settings put secure accessibility_enabled 1
 ```
 

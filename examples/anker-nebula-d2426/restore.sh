@@ -21,7 +21,7 @@ tv() { "$PY" -I "$ROOT/tools/tv.py" "$@"; }
 tv "settings put secure screensaver_components com.google.android.backdrop/.Backdrop"
 
 if [ "${1:-}" = "--remove-launcher" ]; then
-  tv "pm uninstall com.gathin.tvhome"
+  tv "pm uninstall com.jesulonimii.tvhome"
 fi
 
 echo "Disabled packages now:"

@@ -16,7 +16,7 @@ tools/restore.sh examples/epson-ls800/debloat.txt com.google.android.tvlauncher
 tools/theme.sh --reset || true
 tv 'settings delete secure tv_input_custom_labels'
 if [ "${1:-}" = --uninstall-launcher ]; then
-  tv 'pm uninstall com.gathin.tvhome'
+  tv 'pm uninstall com.jesulonimii.tvhome'
 fi
 tv 'cmd package resolve-activity --brief -a android.intent.action.MAIN -c android.intent.category.HOME | tail -n 1'
 echo "Restored. Press Home on the remote; restart the projector if the old home screen does not come up."

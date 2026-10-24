@@ -69,4 +69,4 @@ tools/restore.sh examples/acer-ar55ar2851udpro/debloat.txt
 tools/theme.sh --reset
 ```
 
-Uninstall the launcher (`pm uninstall com.gathin.tvhome`) to give the Home button back to the stock home.
+Uninstall the launcher (`pm uninstall com.jesulonimii.tvhome`) to give the Home button back to the stock home.

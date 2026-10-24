@@ -32,8 +32,8 @@
 # 1. Screensaver. screensaver_components ships as com.google.android.backdrop/.Backdrop with a
 #    5-minute screen_off_timeout. Once backdrop is disabled the screensaver points at a disabled
 #    component, so set another one:
-#      settings put secure screensaver_components com.gathin.tvhome/.ClockDream
-#      settings put secure screensaver_default_component com.gathin.tvhome/.ClockDream
+#      settings put secure screensaver_components com.jesulonimii.tvhome/.ClockDream
+#      settings put secure screensaver_default_component com.jesulonimii.tvhome/.ClockDream
 #    (or com.android.dreams.basic/.Colors without the launcher).
 # 2. Chromecast on a shared network. On this owner's Wi-Fi (a large shared network, ~150 hosts
 #    across 192.168.1-18.x) about 150 devices held connections to the TV's Cast port 8009, and

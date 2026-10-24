@@ -35,7 +35,7 @@ STOCK_CLAIM = re.compile(
     r"(?i)stock\s+(?:launcher|home)(?!'s)\s*(?:package)?\s*(?::|is|=)\s*(" + PACKAGE + r")")
 STOCK_ENV = re.compile(r"STOCK_LAUNCHER\s*[=:]\s*(" + PACKAGE + r")")
 # An active line's own trailing comment, e.g. `com.google.android.apps.tv.launcherx  # stock Google TV
-# home; com.gathin.tvhome is Home now`. The phrase has to end the naming: "stock launcher
+# home; com.jesulonimii.tvhome is Home now`. The phrase has to end the naming: "stock launcher
 # recommendation rows" (com.google.android.tvrecommendations) is not a launcher.
 STOCK_COMMENT = re.compile(
     r"(?i)^\s*stock\s+(?:\S+\s+){0,3}(?:launcher|home)\b\s*(?=$|[;,.()]|\b(?:is|now|at|on|and)\b)")
@@ -171,7 +171,7 @@ class StockLauncherUndoTest(unittest.TestCase):
     def test_an_active_lines_stock_home_comment_counts(self):
         text = (
             "# Undo:    TV_HOST=<tv ip> tools/restore.sh examples/x/debloat.txt\n"
-            "com.google.android.apps.tv.launcherx         # stock Google TV home; com.gathin.tvhome is Home now\n"
+            "com.google.android.apps.tv.launcherx         # stock Google TV home; com.jesulonimii.tvhome is Home now\n"
         )
         self.assertEqual(1, len(undo_problems(text)))
 
