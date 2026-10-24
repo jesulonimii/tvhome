@@ -2938,7 +2938,7 @@ public class MainActivity extends Activity implements AppAdapter.TileListener {
     /** One device row. It stays open on OK and shows "Connecting…" until the broadcast refreshes the pill. */
     private void addBluetoothRow(LinearLayout rows, BluetoothPill.Device d) {
         View row = getLayoutInflater().inflate(R.layout.item_input, rows, false);
-        int icon = d.audio ? (d.name.toLowerCase(Locale.ROOT).matches(".*(speaker|flip|charge|boom|soundbar|bar ).*")
+        int icon = d.audio ? (d.name.toLowerCase(Locale.ROOT).matches(".*(speaker|flip|charge|boom|soundbar|bar |zealot|jbl|xtreme|go ?[0-9]).*")
                 ? R.drawable.ic_speaker : R.drawable.ic_headphones)
                 : d.name.toLowerCase(Locale.ROOT).matches(".*(pad|controller|xbox|dualsense|dualshock|joy).*")
                 ? R.drawable.ic_gamepad
