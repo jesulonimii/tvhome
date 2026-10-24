@@ -117,6 +117,9 @@ final class Config {
     final boolean iconOnlyButtons;
     /** The Inputs pill as a round icon button too (config.xml icon_only_inputs). */
     final boolean iconOnlyInputs;
+    // Local: a Bluetooth pill in the top bar, and the date on its own line under the clock.
+    boolean bluetoothPill;
+    boolean dateBelowClock;
     /** App library as a round button in the top bar (config.xml library_button); needs app_library. */
     final boolean libraryButton;
     /** With icon_only_buttons, the Wi-Fi pill keeps the network name up to this width in dp (0: icon only). */
@@ -597,7 +600,9 @@ final class Config {
         Festival festival = json == null ? Festival.NONE : Festival.parse(string(json, "festival", ""),
                 string(json, "festival_until", ""), string(json, "greeting", ""), string(json, "accent_color", ""));
 
-        return new Config(dock, fillDock, hidden, libraryApps, liveTv, liveTvAction, liveTvInputId, packageMap(launchActions), packageMap(appLabels),
+        boolean bluetoothPill = json == null ? res.getBoolean(R.bool.bluetooth_pill) : bool(json, "bluetooth_pill", res.getBoolean(R.bool.bluetooth_pill));
+        boolean dateBelowClock = json == null ? res.getBoolean(R.bool.date_below_clock) : bool(json, "date_below_clock", res.getBoolean(R.bool.date_below_clock));
+        Config cfg = new Config(dock, fillDock, hidden, libraryApps, liveTv, liveTvAction, liveTvInputId, packageMap(launchActions), packageMap(appLabels),
                 packageMap(appBanners), panelService,
                 panelAction, panelExtra, coocaaSources, inputAction, inputUriScheme,
                 Math.max(1, columns), Math.max(0, rowsBelow), animations, advancedEffects,
@@ -606,6 +611,9 @@ final class Config {
                 wallpapers, rotationMinutes, wallpaperDim, dockOpacity, wallpaperOrder, applied,
                 festival, inputKeycodes, appKeys, stockHomeRedirect, json == null ? Collections.emptyList() : raceCalendar(json), cinematic, ambientGlow, appGlow, fadeRows,
                 Math.max(0, idleClockMinutes), keyFilter, dockGlass, glowStyle, wallpaperCaptions, handleViewInputs, tileMenu, dockEvenPadding, cinematicDots, cinematicWhiteFocus, wifiStatusColor, cinematicScrim, cinematicArt, wallpaperMoods, gamepadPassthrough, consumeVolumeKeys, wifiStatusWarnings, topBarApps, showGreeting, headerWhite, clockWallpaper, Math.max(0, Math.min(90, clockWallpaperDim)), clockGlow, glassStyle, singleRow && dockRow, dockBandAll, lunar, lunarOffset);
+        cfg.bluetoothPill = bluetoothPill;
+        cfg.dateBelowClock = dateBelowClock;
+        return cfg;
     }
 
     /**

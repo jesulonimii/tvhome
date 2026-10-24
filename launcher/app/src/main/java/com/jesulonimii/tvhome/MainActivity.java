@@ -171,6 +171,9 @@ public class MainActivity extends Activity implements AppAdapter.TileListener {
     private TextView greeting;
     private View clockBlock;
     private View btnInputs;
+    // Local: the Bluetooth pill and the paired devices behind it.
+    private TextView btnBluetooth;
+    private BluetoothPill bluetooth;
     /** config show_inputs_pill: false keeps the Inputs pill hidden even when the TV has inputs. */
     private boolean showInputsPill = true;
     private TextView btnWifi;
@@ -744,6 +747,8 @@ public class MainActivity extends Activity implements AppAdapter.TileListener {
             makeIconOnly((TextView) btnSettings);
         }
         if (cfg.iconOnlyInputs) makeIconOnly((TextView) btnInputs);
+        setUpBluetoothPill(cfg.bluetoothPill);
+        if (cfg.dateBelowClock) moveDateBelowClock();
         btnSettings.setOnLongClickListener(v -> {
             showSettingsMenu();
             return true;
@@ -767,6 +772,7 @@ public class MainActivity extends Activity implements AppAdapter.TileListener {
             return keyCode == KeyEvent.KEYCODE_DPAD_RIGHT && v.getId() == rightButton;
         };
         btnInputs.setOnKeyListener(pillKeys);
+        btnBluetooth.setOnKeyListener(pillKeys);
         btnWifi.setOnKeyListener(pillKeys);
         btnSettings.setOnKeyListener(pillKeys);
         btnReorder.setOnKeyListener(pillKeys);
@@ -1181,6 +1187,7 @@ public class MainActivity extends Activity implements AppAdapter.TileListener {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        if (bluetooth != null) bluetooth.stop();
         unregisterReceiver(packageReceiver);
         wallpaperPlayer.close();
         ConnectivityManager cm = getSystemService(ConnectivityManager.class);
@@ -2864,6 +2871,122 @@ public class MainActivity extends Activity implements AppAdapter.TileListener {
             }
         }
         open(new Intent(inputAction).setDataAndType(uri, "vnd.android.cursor.item/channel"));
+    }
+
+    // ---- local: Bluetooth pill and date under the clock -------------------------------------------
+
+    private void setUpBluetoothPill(boolean on) {
+        btnBluetooth = findViewById(R.id.btnBluetooth);
+        bluetooth = new BluetoothPill(this, () -> root.post(this::refreshBluetoothPill));
+        if (!on || !bluetooth.available()) {
+            btnBluetooth.setVisibility(View.GONE);
+            bluetooth = null;
+            return;
+        }
+        btnBluetooth.setVisibility(View.VISIBLE);
+        btnBluetooth.setOnClickListener(v -> showBluetooth());
+        // Hold OK: the TV's own pairing screen.
+        btnBluetooth.setOnLongClickListener(v -> {
+            openBluetoothPairing();
+            return true;
+        });
+        bluetooth.start();
+        refreshBluetoothPill();
+    }
+
+    /** Icon only while nothing plays through Bluetooth; the device name beside the icon once one does. */
+    private void refreshBluetoothPill() {
+        if (bluetooth == null || isDestroyed()) return;
+        String name = bluetooth.connectedAudioName();
+        int pad = Math.round((name == null ? 10 : 18) * density);
+        btnBluetooth.setText(name);
+        btnBluetooth.setContentDescription(name == null ? getString(R.string.bluetooth) : name);
+        btnBluetooth.setPaddingRelative(pad, 0, pad, 0);
+        btnBluetooth.setCompoundDrawablePadding(name == null ? 0 : Math.round(8 * density));
+        btnBluetooth.getLayoutParams().width = name == null ? Math.round(42 * density) : ViewGroup.LayoutParams.WRAP_CONTENT;
+        btnBluetooth.setAlpha(bluetooth.enabled() ? 1f : 0.5f);
+        btnBluetooth.requestLayout();
+    }
+
+    private void openBluetoothPairing() {
+        Intent pair = new Intent("com.google.android.intent.action.CONNECT_INPUT");
+        if (pair.resolveActivity(getPackageManager()) == null) pair = systemIntent(Settings.ACTION_BLUETOOTH_SETTINGS);
+        open(pair);
+    }
+
+    /** Dropdown under the Bluetooth pill: paired devices (OK connects, or disconnects audio), then pairing. */
+    private void showBluetooth() {
+        View panel = getLayoutInflater().inflate(R.layout.popup_inputs, root, false);
+        LinearLayout rows = panel.findViewById(R.id.rows);
+        int width = Math.max(btnBluetooth.getWidth(), (int) (240 * density));
+        final PopupWindow popup = glassPopup(panel, width);
+        if (!bluetooth.enabled()) {
+            addInputRow(rows, popup, R.drawable.ic_bluetooth, getString(R.string.bt_off), -1, this::openBluetoothPairing);
+        } else {
+            List<BluetoothPill.Device> devices = bluetooth.devices();
+            if (devices.isEmpty()) addInputRow(rows, popup, R.drawable.ic_bluetooth, getString(R.string.bt_none), -1, () -> { });
+            for (BluetoothPill.Device d : devices) addBluetoothRow(rows, d);
+        }
+        addSeparator(rows);
+        addInputRow(rows, popup, R.drawable.ic_plus, getString(R.string.bt_pair_new), -1, this::openBluetoothPairing);
+        panel.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
+        popup.setWidth(Math.max(width, Math.min(panel.getMeasuredWidth(), (int) (360 * density))));
+        dropIn(popup, panel, btnBluetooth, getResources().getBoolean(R.bool.rtl_menu_bar) ? Gravity.END : Gravity.START);
+        rows.getChildAt(0).requestFocus();
+    }
+
+    /** One device row. It stays open on OK and shows "Connecting…" until the broadcast refreshes the pill. */
+    private void addBluetoothRow(LinearLayout rows, BluetoothPill.Device d) {
+        View row = getLayoutInflater().inflate(R.layout.item_input, rows, false);
+        int icon = d.audio ? (d.name.toLowerCase(Locale.ROOT).matches(".*(speaker|flip|charge|boom|soundbar|bar ).*")
+                ? R.drawable.ic_speaker : R.drawable.ic_headphones)
+                : d.name.toLowerCase(Locale.ROOT).matches(".*(pad|controller|xbox|dualsense|dualshock|joy).*")
+                ? R.drawable.ic_gamepad
+                : d.name.toLowerCase(Locale.ROOT).matches(".*(keyboard|kb).*") ? R.drawable.ic_keyboard : R.drawable.ic_bluetooth;
+        ((ImageView) row.findViewById(R.id.icon)).setImageResource(icon);
+        ((TextView) row.findViewById(R.id.title)).setText(d.name);
+        TextView status = row.findViewById(R.id.status);
+        View dot = row.findViewById(R.id.dot);
+        status.setText(d.connected ? getString(R.string.connected) : "");
+        status.setVisibility(d.connected ? View.VISIBLE : View.GONE);
+        dot.setVisibility(d.connected ? View.VISIBLE : View.GONE);
+        row.setOnClickListener(v -> {
+            boolean asked;
+            if (d.connected) {
+                asked = bluetooth.disconnect(d);
+                if (!asked) return;   // a connected remote or keyboard stays connected
+                status.setVisibility(View.GONE);
+                dot.setVisibility(View.GONE);
+            } else {
+                asked = bluetooth.connect(d);
+                status.setText(asked ? R.string.bt_connecting : R.string.bt_failed);
+                status.setVisibility(View.VISIBLE);
+                if (asked) row.postDelayed(() -> {
+                    // The receiver refreshes the pill; this row reads the state again after the attempt settles.
+                    for (BluetoothPill.Device now : bluetooth.devices()) {
+                        if (!now.device.equals(d.device)) continue;
+                        status.setText(now.connected ? getString(R.string.connected) : getString(R.string.bt_failed));
+                        dot.setVisibility(now.connected ? View.VISIBLE : View.GONE);
+                    }
+                }, 6000);
+            }
+        });
+        rows.addView(row);
+    }
+
+    /** date_below_clock: the date leaves the clock's row for its own line under it, and the divider goes. */
+    private void moveDateBelowClock() {
+        View date = findViewById(R.id.date);
+        ViewGroup dateBlock = (ViewGroup) date.getParent();
+        ViewGroup clockRow = (ViewGroup) dateBlock.getParent();
+        ViewGroup header = (ViewGroup) clockRow.getParent();
+        findViewById(R.id.clockDivider).setVisibility(View.GONE);
+        clockRow.removeView(dateBlock);
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT);
+        lp.setMarginStart(Math.round(4 * density));
+        lp.topMargin = Math.round(4 * density);
+        header.addView(dateBlock, header.indexOfChild(clockRow) + 1, lp);
     }
 
     /** Dropdown menu under the Inputs pill: HDMI ports (with connection state), AV and Live TV. */
